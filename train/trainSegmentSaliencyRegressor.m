@@ -2,17 +2,26 @@ clc;
 
 if ~exist('trn_segment_saliency_data.mat', 'file')
     % training folder
-    base_dir = 'D:\LearningSaliency\Data';
-    imdir = fullfile(base_dir, 'MSRA');
+    base_dir = 'train/MSRA10K';
+    %imdir = fullfile(base_dir, 'MSRA10K');
+    
+    % location of ground truth
+    imdir = [base_dir '/images/train/'];
+    trnGtDir = [base_dir '/groundTruth/train/'];
+    imgIds=dir(imdir); imgIds=imgIds([imgIds.bytes]>0);
+    imgIds={imgIds.name}; ext=imgIds{1}(end-2:end);
+    nImgs=length(imgIds); for i=1:nImgs, imgIds{i}=imgIds{i}(1:end-4); end
+    image_list = imgIds;
+    
     % imdir = '../../Data/MSRA';
     %image_list = dir(fullfile(imdir, '*.jpg'));
     %image_list(201:end) = [];
     % image_list = fGetStrList('../../Data/train.txt');
-    image_list = fGetStrList(fullfile(base_dir, 'train.txt'));
+    %image_list = fGetStrList(fullfile(base_dir, 'train.txt'));
     % image_list = image_list(1:200); %randsample(length(image_list), 200)
 
     work_dir = '../../WorkingData/MSRA/';
-    gt_dir = fullfile(base_dir, 'MSRA_gt');
+    gt_dir = trnGtDir;
     % gt_dir = '../../Data/MSRA';
     
     if ~exist(fullfile(work_dir, 'saliency'), 'dir')
@@ -29,7 +38,7 @@ if ~exist('trn_segment_saliency_data.mat', 'file')
         image_name = image_list{ix};
         mat_name = [image_name(1:end-4), '.mat'];
 
-        image = imread(fullfile(imdir, [image_name(1:end-3) 'png']));
+        image = imread(fullfile(imdir, [image_name(1:end-3) '.jpg']));
         gt = imread(fullfile(gt_dir, image_name));
         
         edata = load(fullfile(work_dir, 'same_label', mat_name), 'edgedata');
