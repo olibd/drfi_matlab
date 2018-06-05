@@ -7,7 +7,7 @@ if ~exist('trn_segment_saliency_data.mat', 'file')
     
     % location of ground truth
     imdir = [base_dir '/images/train/'];
-    trnGtDir = [base_dir '/groundTruth/train/'];
+    trnGtDir = [base_dir '/truth-edges/train/'];
     imgIds=dir(imdir); imgIds=imgIds([imgIds.bytes]>0);
     imgIds={imgIds.name}; ext=imgIds{1}(end-2:end);
     nImgs=length(imgIds); for i=1:nImgs, imgIds{i}=imgIds{i}(1:end-4); end
@@ -36,10 +36,10 @@ if ~exist('trn_segment_saliency_data.mat', 'file')
     NumImgs = length(image_list);
     for ix = 1 : NumImgs
         image_name = image_list{ix};
-        mat_name = [image_name(1:end-4), '.mat'];
+        mat_name = [image_name, '.mat'];
 
-        image = imread(fullfile(imdir, [image_name(1:end-3) '.jpg']));
-        gt = imread(fullfile(gt_dir, image_name));
+        image = imread(fullfile(imdir, [image_name '.jpg']));
+        gt = imread(fullfile(gt_dir, [image_name '.png']));
         
         edata = load(fullfile(work_dir, 'same_label', mat_name), 'edgedata');
         sdata = load(fullfile(work_dir, 'imsegs', mat_name), 'imsegs');
