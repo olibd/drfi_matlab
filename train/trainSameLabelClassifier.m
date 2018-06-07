@@ -8,7 +8,7 @@ if ~exist('trn_same_label_data.mat', 'file')
     
     % location of ground truth
     imdir = [base_dir '/images/train/'];
-    trnGtDir = [base_dir '/truth-edges/train/'];
+    trnGtDir = [base_dir '/truth-saliency/train/'];
     imgIds=dir(imdir); imgIds=imgIds([imgIds.bytes]>0);
     imgIds={imgIds.name}; ext=imgIds{1}(end-2:end);
     nImgs=length(imgIds); for i=1:nImgs, imgIds{i}=imgIds{i}(1:end-4); end
